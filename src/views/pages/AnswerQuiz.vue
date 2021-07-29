@@ -1,7 +1,12 @@
 <template>
   <div>
-    <h1>クイズに答える</h1>
-    <!-- <HelloWorld/> -->
+    <h1>クイズに答えるよ</h1>
+    <div>
+      <router-link to='/multiplePlayers'>みんなでクイズ</router-link>
+    </div>
+    <div>
+      <router-link to='/onePlayer'>ひとりでクイズ</router-link>
+    </div>
   </div>
 </template>
 

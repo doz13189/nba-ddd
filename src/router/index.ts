@@ -2,6 +2,9 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Menu from '../views/pages/Menu.vue'
 import AnswerQuiz from '../views/pages/AnswerQuiz.vue'
 import CreateQuiz from '../views/pages/CreateQuiz.vue'
+import MultiplePlayers from '../views/pages/MultiplePlayers.vue'
+import OnePlayer from '../views/pages/OnePlayer.vue'
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -10,16 +13,24 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/createQuiz',
-    component: AnswerQuiz
+    component: CreateQuiz
   },
   {
     path: '/answerQuiz',
-    component: CreateQuiz
+    component: AnswerQuiz
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     // component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+  },
+  {
+    path: '/multiplePlayers',
+    component: MultiplePlayers
+  },
+  {
+    path: '/onePlayer',
+    component: OnePlayer
+  },
 ]
 
 const router = createRouter({
