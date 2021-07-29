@@ -4,7 +4,8 @@ import AnswerQuiz from '../views/pages/AnswerQuiz.vue'
 import CreateQuiz from '../views/pages/CreateQuiz.vue'
 import MultiplePlayers from '../views/pages/MultiplePlayers.vue'
 import OnePlayer from '../views/pages/OnePlayer.vue'
-
+import Host from '../views/pages/Host.vue'
+import Guest from '../views/pages/Guest.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -30,6 +31,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/onePlayer',
     component: OnePlayer
+  },
+  {
+    path: '/host',
+    component: Host
+  },
+  {
+    path: '/guest',
+    component: Guest
   },
 ]
 
