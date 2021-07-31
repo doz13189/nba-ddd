@@ -7,6 +7,7 @@
     <CreateQuizContents/>
     <SelectAnswerType/>
     <CreateAnswer/>
+    <DecideTitle/>
 
     <button type="button">次に進む</button>
     <button type="button">完了</button>
@@ -19,13 +20,15 @@ import SelectQuizType from '@/views/components/SelectQuizType.vue'
 import SelectAnswerType from '@/views/components/SelectAnswerType.vue'
 import CreateQuizContents from '@/views/components/CreateQuizContents.vue'
 import CreateAnswer from '@/views/components/CreateAnswer.vue'
+import DecideTitle from '@/views/components/DecideTitle.vue'
 
 export default defineComponent({
   components: {
     SelectQuizType,
     CreateQuizContents,
     SelectAnswerType,
-    CreateAnswer
+    CreateAnswer,
+    DecideTitle
   }
 });
 </script>

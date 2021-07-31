@@ -1,7 +1,7 @@
 <template>
 
   <div>
-    <label for="name">答え</label>
+    <label for="name">タイトル</label>
     <input type="text" required minlength="4" maxlength="8" size="10">
   </div>
 
