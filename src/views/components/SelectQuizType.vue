@@ -4,18 +4,35 @@
     </div>
 
     <div>
-      <select name="pets" id="pet-select">
-          <option value="dog">このチームはどこ？</option>
-          <option value="cat">この選手はだれ？</option>
+      <select v-model="selectedQuizType">
+        <option disabled value="">1つ選んで下さい</option>
+        <option value="1">このチームはどこ？</option>
+        <option value="2">この画像の人はだれ？</option>
       </select>
+      <!-- <span>Selected: {{ selectedQuizType }}</span> -->
     </div>
 
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref, watchEffect } from 'vue';
+import { SelectQuizValueObject } from '@/domain/models/Quiz'
 
 export default defineComponent({
+  emits: ['passStatusToParent'],
+  setup(props, { emit }) {
+    const selectedQuizType = ref<string>('')
+
+    watchEffect(() => {
+      const selectQuiz = new SelectQuizValueObject(selectedQuizType.value)
+      const selectQuizStatus = selectQuiz.checkQuizType()
+      emit('passStatusToParent', { type: 'selectQuizType', status: selectQuizStatus })
+    })
+
+    return {
+      selectedQuizType
+    }
+  }
 });
 </script>
 
