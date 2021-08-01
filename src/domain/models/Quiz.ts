@@ -49,25 +49,35 @@ class SelectQuizValueObject {
 
 
 class QuizCreatingProcessManagementEntity {
-  // private _quizCreatingProcessMap = new Map<string, boolean>()
-  private _quizActiveProcess =  new Map<string, boolean>()
+  private _creatingActiveProcess =  new Map<string, boolean>()
+  private _creatingProcessComplete =  new Map<string, boolean>()
   private _quizProcessOrder =  new Map<string, number>()
   
   constructor() {
-    this.setInitialQuizActiveProcess()
-    this.setInitialQuizProcessOrder()
+    this.initialSetCreatingActiveProcess()
+    this.initialSetCreatingProcessComplete()
+    this.initialSetQuizProcessOrder()
   }
 
-  setInitialQuizActiveProcess(): void {
-    this._quizActiveProcess.set('selectQuizType', false)
-    this._quizActiveProcess.set('createQuizContents', false)
-    this._quizActiveProcess.set('selectAnswerType', false)
-    this._quizActiveProcess.set('createAnswer', false)
-    this._quizActiveProcess.set('decideTitle', false)
-    this._quizActiveProcess.set('saveQuiz', false)
+  initialSetCreatingActiveProcess(): void {
+    this._creatingActiveProcess.set('selectQuizType', false)
+    this._creatingActiveProcess.set('createQuizContents', false)
+    this._creatingActiveProcess.set('selectAnswerType', false)
+    this._creatingActiveProcess.set('createAnswer', false)
+    this._creatingActiveProcess.set('decideTitle', false)
+    this._creatingActiveProcess.set('saveQuiz', false)
   }
 
-  setInitialQuizProcessOrder(): void {
+  initialSetCreatingProcessComplete(): void {
+    this._creatingProcessComplete.set('selectQuizType', true)
+    this._creatingProcessComplete.set('createQuizContents', false)
+    this._creatingProcessComplete.set('selectAnswerType', false)
+    this._creatingProcessComplete.set('createAnswer', false)
+    this._creatingProcessComplete.set('decideTitle', false)
+    this._creatingProcessComplete.set('saveQuiz', false)
+  }
+
+  initialSetQuizProcessOrder(): void {
     this._quizProcessOrder.set('selectQuizType', 1)
     this._quizProcessOrder.set('createQuizContents', 2)
     this._quizProcessOrder.set('selectAnswerType', 3)
@@ -76,20 +86,28 @@ class QuizCreatingProcessManagementEntity {
     this._quizProcessOrder.set('saveQuiz', 6)
   }
 
-  setQuizActiveProcess(): void {
-    this._quizActiveProcess.set('selectQuizType', false)
+  setCreatingActiveProcess(quizCreatingProcessType: string, quizCreatingProcessStatus: boolean): void {
+    this._creatingActiveProcess.set(quizCreatingProcessType, quizCreatingProcessStatus)
   }
 
-  getQuizActiveProcess(quizCreatingProcess: string): boolean {
-    const getResult = this._quizActiveProcess.get(quizCreatingProcess)
+  getCreatingActiveProcess(quizCreatingProcess: string): boolean {
+    const getResult = this._creatingActiveProcess.get(quizCreatingProcess)
 
     if (getResult) { return true }
     return false
   }
 
-  // getActiveScreen(): string {
-  //   return ''
-  // }
+  setCreatingProcessComplete(quizCreatingProcessType: string, quizCreatingProcessStatus: boolean): void {
+    this._creatingProcessComplete.set(quizCreatingProcessType, quizCreatingProcessStatus)
+  }
+
+  getCreatingProcessComplete(quizCreatingProcess: string): boolean {
+    const getResult = this._creatingProcessComplete.get(quizCreatingProcess)
+
+    if (getResult) { return true }
+    return false
+  }
+
 }
 
 export {
