@@ -48,69 +48,108 @@ class SelectQuizValueObject {
 }
 
 
-class QuizCreatingProcessManagementEntity {
-  private _creatingActiveProcess =  new Map<string, boolean>()
-  private _creatingProcessComplete =  new Map<string, boolean>()
-  private _quizProcessOrder =  new Map<string, number>()
+class ProcessManagementEntity {
+  private _activeProcess =  new Map<string, boolean>()
+  private _processComplete =  new Map<string, boolean>()
+  private _processOrder =  new Map<string, number>()
   
   constructor() {
-    this.initialSetCreatingActiveProcess()
-    this.initialSetCreatingProcessComplete()
-    this.initialSetQuizProcessOrder()
+    this.initialSetActiveProcess()
+    this.initialSetProcessComplete()
+    this.initialSetProcessOrder()
   }
 
-  initialSetCreatingActiveProcess(): void {
-    this._creatingActiveProcess.set('selectQuizType', false)
-    this._creatingActiveProcess.set('createQuizContents', false)
-    this._creatingActiveProcess.set('selectAnswerType', false)
-    this._creatingActiveProcess.set('createAnswer', false)
-    this._creatingActiveProcess.set('decideTitle', false)
-    this._creatingActiveProcess.set('saveQuiz', false)
+  initialSetActiveProcess(): void {
+    this._activeProcess.set('selectQuizType', true)
+    this._activeProcess.set('createQuizContents', false)
+    this._activeProcess.set('selectAnswerType', false)
+    this._activeProcess.set('createAnswer', false)
+    this._activeProcess.set('decideTitle', false)
+    this._activeProcess.set('saveQuiz', false)
   }
 
-  initialSetCreatingProcessComplete(): void {
-    this._creatingProcessComplete.set('selectQuizType', true)
-    this._creatingProcessComplete.set('createQuizContents', false)
-    this._creatingProcessComplete.set('selectAnswerType', false)
-    this._creatingProcessComplete.set('createAnswer', false)
-    this._creatingProcessComplete.set('decideTitle', false)
-    this._creatingProcessComplete.set('saveQuiz', false)
+  initialSetProcessComplete(): void {
+    this._processComplete.set('selectQuizType', false)
+    this._processComplete.set('createQuizContents', false)
+    this._processComplete.set('selectAnswerType', false)
+    this._processComplete.set('createAnswer', false)
+    this._processComplete.set('decideTitle', false)
+    this._processComplete.set('saveQuiz', false)
   }
 
-  initialSetQuizProcessOrder(): void {
-    this._quizProcessOrder.set('selectQuizType', 1)
-    this._quizProcessOrder.set('createQuizContents', 2)
-    this._quizProcessOrder.set('selectAnswerType', 3)
-    this._quizProcessOrder.set('createAnswer', 4)
-    this._quizProcessOrder.set('decideTitle', 5)
-    this._quizProcessOrder.set('saveQuiz', 6)
+  initialSetProcessOrder(): void {
+    this._processOrder.set('selectQuizType', 1)
+    this._processOrder.set('createQuizContents', 2)
+    this._processOrder.set('selectAnswerType', 3)
+    this._processOrder.set('createAnswer', 4)
+    this._processOrder.set('decideTitle', 5)
+    this._processOrder.set('saveQuiz', 6)
   }
 
-  setCreatingActiveProcess(quizCreatingProcessType: string, quizCreatingProcessStatus: boolean): void {
-    this._creatingActiveProcess.set(quizCreatingProcessType, quizCreatingProcessStatus)
+  setActiveProcess(processType: string, processStatus: boolean): void {
+    this._activeProcess.set(processType, processStatus)
   }
 
-  getCreatingActiveProcess(quizCreatingProcess: string): boolean {
-    const getResult = this._creatingActiveProcess.get(quizCreatingProcess)
+  getActiveProcess(processType: string): boolean {
+    const getResult = this._activeProcess.get(processType)
 
     if (getResult) { return true }
     return false
   }
 
-  setCreatingProcessComplete(quizCreatingProcessType: string, quizCreatingProcessStatus: boolean): void {
-    this._creatingProcessComplete.set(quizCreatingProcessType, quizCreatingProcessStatus)
+  setNextActiveProcess(processType: string): void {
+    const getResult: number | undefined = this._processOrder.get(processType)
+    if (!getResult) { throw new Error('プロセスタイプが見つかりません。')}
+    // Map へのアクセスのエラーハンドラを持った関数を用意するべき
+    // この関数だけエラーハンドラを用意しているのは統一性に欠ける
+
+    const nextProcessOrder: number = getResult + 1
+
+    for (const [key, value] of this._processOrder) {
+      if (nextProcessOrder === value) {
+        const nextprocessType: string = key
+        this.setActiveProcess(nextprocessType, true)
+      }
+    }
+
+    // throw new Error('次の工程のプロセスタイプが見つかりません。')
   }
 
-  getCreatingProcessComplete(quizCreatingProcess: string): boolean {
-    const getResult = this._creatingProcessComplete.get(quizCreatingProcess)
+  setProcessComplete(processType: string, processStatus: boolean): void {
+    this._processComplete.set(processType, processStatus)
+  }
+
+  getProcessComplete(processType: string): boolean {
+    const getResult = this._processComplete.get(processType)
 
     if (getResult) { return true }
     return false
   }
+
+  exportActiveProcess(): { [index: string]: boolean } {
+    return Object.fromEntries(this._activeProcess)
+  }
+
+  exportProcessComplete(): { [index: string]: boolean } {
+    return Object.fromEntries(this._processComplete)
+  }
+
+  updateActiveProcess(updateTargetObject: { [index: string]: boolean }): void {
+    for (const [key, value] of this._activeProcess) {
+      updateTargetObject[key] = value
+    }
+  }
+
+  updateProcessComplete(updateTargetObject: { [index: string]: boolean }): void {
+    for (const [key, value] of this._processComplete) {
+      updateTargetObject[key] = value
+    }
+  }
+
 
 }
 
 export {
   SelectQuizValueObject,
-  QuizCreatingProcessManagementEntity
+  ProcessManagementEntity
 }

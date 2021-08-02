@@ -3,31 +3,48 @@
 
     <h1>クイズを作る</h1>
 
-    <SelectQuizType
-      v-if="selectQuizType"
-      @passStatusToParent="updateCreatingActiveProcess($event)"
-      />
-    <!-- <QuizCreatingProcess :creatingProcessType="creatingProcessType" :creatingProcessStatus="creatingProcessStatus"/> -->
-    <GoNextCreatingProcess
-      v-if="selectQuizType"
-      @passStatusToParent="updateCreatingProcessComplete($event)"
-      :goNextButtonType="'selectQuizType'"
-      :goNextButtonStatus="gotNextButtonStatus"
-      />
-    
-    <!-- {{ creatingProcessType }}
-    {{ creatingProcessStatus }} -->
+    <div v-if="reactiveActiveProcess.selectQuizType">
+      <SelectQuizType
+        @passStatusToParent="updateProcessComplete($event)"
+        />
 
-    <CreateQuizContents/>
-    <SelectAnswerType/>
-    <CreateAnswer/>
-    <DecideTitle/>
-    <SaveQuiz/>
+      <GoNextCreatingProcess
+        @passStatusToParent="updateActiveProcess($event)"
+        :goNextButtonType="'selectQuizType'"
+        :goNextButtonStatus="reactiveProcessComplete.selectQuizType"
+        />
+    </div>
+
+    <div v-if="reactiveActiveProcess.createQuizContents">
+      <CreateQuizContents/>
+    </div>
+
+    <!-- reactiveActiveProcess: {{ reactiveActiveProcess.get('selectQuizType') }}
+    reactiveActiveProcess: {{ reactiveActiveProcess.get('createQuizContents') }}
+
+    reactiveProcessComplete: {{ reactiveProcessComplete.get('selectQuizType') }}
+    reactiveProcessComplete: {{ reactiveProcessComplete.get('createQuizContents') }} -->
+
+    <!-- <div v-if="selectAnswerTypeActiveProcess"> -->
+      <SelectAnswerType/>
+    <!-- </div> -->
+
+    <!-- <div v-if="createAnswerActiveProcess"> -->
+      <CreateAnswer/>
+    <!-- </div> -->
+
+    <!-- <div v-if="decideTitleActiveProcess"> -->
+      <DecideTitle/>
+    <!-- </div> -->
+
+    <!-- <div v-if="saveQuizActiveProcess"> -->
+      <SaveQuiz/>
+    <!-- </div> -->
 
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import SelectQuizType from '@/views/components/SelectQuizType.vue'
 import SelectAnswerType from '@/views/components/SelectAnswerType.vue'
 import CreateQuizContents from '@/views/components/CreateQuizContents.vue'
@@ -36,7 +53,7 @@ import DecideTitle from '@/views/components/DecideTitle.vue'
 import SaveQuiz from '@/views/components/SaveQuiz.vue'
 import GoNextCreatingProcess from '@/views/components/GoNextCreatingProcess.vue'
 
-import { QuizCreatingProcessManagementEntity } from '@/domain/models/Quiz'
+import { ProcessManagementEntity } from '@/domain/models/Quiz'
 
 export default defineComponent({
   components: {
@@ -49,27 +66,32 @@ export default defineComponent({
     GoNextCreatingProcess
   },
   setup() {
-    const quizCreatingProcessManagement = new QuizCreatingProcessManagementEntity()
-    const gotNextButtonStatus = ref<boolean>(false)
-    const selectQuizType = ref<boolean>(quizCreatingProcessManagement.getCreatingProcessComplete('selectQuizType'))
+    const processManagement = new ProcessManagementEntity()
 
-    const updateCreatingActiveProcess = (event: { type: string, status: boolean}) => {
-      quizCreatingProcessManagement.setCreatingActiveProcess(event.type, event.status)
-      gotNextButtonStatus.value = quizCreatingProcessManagement.getCreatingActiveProcess(event.type)
+    const activeProcess = processManagement.exportActiveProcess()
+    const reactiveActiveProcess = reactive(activeProcess)
+
+    const processComplete = processManagement.exportProcessComplete()
+    const reactiveProcessComplete = reactive(processComplete)
+
+    const updateActiveProcess = (event: { type: string, status: boolean}) => {
+      processManagement.setActiveProcess(event.type, event.status)
+      processManagement.setNextActiveProcess(event.type)
+      processManagement.updateActiveProcess(reactiveActiveProcess)
     }
 
-    const updateCreatingProcessComplete = (event: { type: string, status: boolean}) => {
-      quizCreatingProcessManagement.setCreatingProcessComplete(event.type, event.status)
-      selectQuizType.value = quizCreatingProcessManagement.getCreatingProcessComplete(event.type)
+    const updateProcessComplete = (event: { type: string, status: boolean}) => {
+      processManagement.setProcessComplete(event.type, event.status)
+      processManagement.updateProcessComplete(reactiveProcessComplete)
     }
 
-    // ProcessComplete
+
+
     return {
-      updateCreatingActiveProcess,
-      updateCreatingProcessComplete,
-      quizCreatingProcessManagement,
-      gotNextButtonStatus,
-      selectQuizType
+      updateActiveProcess,
+      updateProcessComplete,
+      reactiveActiveProcess,
+      reactiveProcessComplete
     }
   }
 });

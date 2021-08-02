@@ -13,9 +13,10 @@ export default defineComponent({
   emits: ['passStatusToParent'],
   setup(props, { emit }) {
 
-    const localGoNextButtonStatus = ref<boolean>(false)
+    const localGoNextButtonStatus = ref<boolean>(props.goNextButtonStatus)
 
     watchEffect(() => {
+      console.log('props.goNextButtonStatus', props.goNextButtonStatus)
       localGoNextButtonStatus.value = props.goNextButtonStatus
     })
 

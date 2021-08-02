@@ -9,7 +9,6 @@
         <option value="1">このチームはどこ？</option>
         <option value="2">この画像の人はだれ？</option>
       </select>
-      <!-- <span>Selected: {{ selectedQuizType }}</span> -->
     </div>
 
 </template>
@@ -36,6 +35,5 @@ export default defineComponent({
 });
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>
