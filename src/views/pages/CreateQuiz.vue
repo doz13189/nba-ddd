@@ -15,8 +15,7 @@
         />
     </div>
 
-    <!-- <div v-if="reactiveActiveProcess.createQuizContents"> -->
-    <div v-if="true">
+    <div v-if="reactiveActiveProcess.createQuizContents">
       <CreateQuizContents/>
     </div>
 
