@@ -24,6 +24,7 @@ export default defineComponent({
 
     watchEffect(() => {
       const selectQuiz = new SelectQuizValueObject(selectedQuizType.value)
+      
       const selectQuizStatus = selectQuiz.checkQuizType()
       emit('passStatusToParent', { type: 'selectQuizType', status: selectQuizStatus })
     })

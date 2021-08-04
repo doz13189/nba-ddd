@@ -85,8 +85,6 @@ export default defineComponent({
       processManagement.updateProcessComplete(reactiveProcessComplete)
     }
 
-
-
     return {
       updateActiveProcess,
       updateProcessComplete,

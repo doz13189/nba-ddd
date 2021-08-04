@@ -127,29 +127,136 @@ class ProcessManagementEntity {
   }
 
   exportActiveProcess(): { [index: string]: boolean } {
+    // new Map() はリアクティブオブジェクトとして扱えないためオブジェクトに変換
     return Object.fromEntries(this._activeProcess)
   }
 
   exportProcessComplete(): { [index: string]: boolean } {
+    // new Map() はリアクティブオブジェクトとして扱えないためオブジェクトに変換
     return Object.fromEntries(this._processComplete)
   }
 
   updateActiveProcess(updateTargetObject: { [index: string]: boolean }): void {
+    // 値オブジェクトの変更をオブジェクトに反映
+    // 
     for (const [key, value] of this._activeProcess) {
       updateTargetObject[key] = value
     }
   }
 
   updateProcessComplete(updateTargetObject: { [index: string]: boolean }): void {
+    // 値オブジェクトの変更をオブジェクトに反映
     for (const [key, value] of this._processComplete) {
       updateTargetObject[key] = value
     }
   }
 
+}
+
+
+class QuizContentsOrderValueObject {
+  private _order: number
+  private _orderRange: Array<number> = [1, 2, 3, 4, 5]
+
+  constructor(order: number) {
+    this._order = order
+    this.checkOrder()
+  }
+
+  goNextOrder(): QuizContentsOrderValueObject {
+    this._order ++
+    return new QuizContentsOrderValueObject(this._order)
+  }
+
+  checkOrder(): void {
+    if (!(this._order in this._orderRange)) {
+      throw new Error('不正なクイズ番号が選択されました')
+    }
+  }
+
+  get order(): number {
+    return this._order
+  }
+
+}
+
+class QuizContentsValueObject {
+  private _position: string
+  private _positions: Array<string> = [
+    'Guards',
+    'Forwards',
+    'Center'
+  ]
+
+  private _height: number
+  // マヌート・ボルが NBA の歴史上一番高身長
+  private _maxHeight: number = 231
+  // マグジー・ボーグスが NBA の歴史上一番低身長
+  private _minHeight: number = 160
+
+  constructor(position: string, height: number) {
+    this._position = position
+    this.checkPosition()
+
+    this._height = height
+    this.checkHeight()
+  }
+
+  checkPosition(): void {
+    console.log(this._position, this._positions, this._position in this._positions)
+    if (!(this._positions.includes(this._position))) {
+      throw new Error('不正なポジションが選択されました')
+    }
+  }
+
+  checkHeight(): void {
+    if (this._height > this._maxHeight) {
+      throw new Error('不正な身長が入力されました')
+    }
+    if (this._height < this._minHeight) {
+      throw new Error('不正な身長が入力されました')
+    }
+  }
+
+  get quizContents(): QuizContentsInterface {
+    return {
+      position: this._position,
+      height: this._height,
+    }
+  }
+
+}
+
+interface QuizContentsInterface {
+  position: string | null,
+  height: number | null
+}
+
+class CreateQuizContentsValueObject {
+
+  private _quizContents = new Map<number, QuizContentsInterface>()
+
+  constructor() {
+  }
+
+  initialQuizContents(): void {
+    this._quizContents.set(1, { position: null, height: null })
+    this._quizContents.set(2, { position: null, height: null })
+    this._quizContents.set(3, { position: null, height: null })
+    this._quizContents.set(4, { position: null, height: null })
+    this._quizContents.set(5, { position: null, height: null })
+  }
+
+  addQuizContents(quizContentsOrder: QuizContentsOrderValueObject, quizContents: QuizContentsValueObject): void {
+    this._quizContents.set(quizContentsOrder.order, quizContents.quizContents)
+  }
 
 }
 
 export {
   SelectQuizValueObject,
-  ProcessManagementEntity
+  ProcessManagementEntity,
+  QuizContentsOrderValueObject,
+  QuizContentsValueObject,
+  CreateQuizContentsValueObject
 }
