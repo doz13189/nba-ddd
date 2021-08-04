@@ -16,7 +16,6 @@ export default defineComponent({
     const localGoNextButtonStatus = ref<boolean>(props.goNextButtonStatus)
 
     watchEffect(() => {
-      console.log('props.goNextButtonStatus', props.goNextButtonStatus)
       localGoNextButtonStatus.value = props.goNextButtonStatus
     })
 

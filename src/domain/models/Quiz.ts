@@ -203,7 +203,6 @@ class QuizContentsValueObject {
   }
 
   checkPosition(): void {
-    console.log(this._position, this._positions, this._position in this._positions)
     if (!(this._positions.includes(this._position))) {
       throw new Error('不正なポジションが選択されました')
     }
