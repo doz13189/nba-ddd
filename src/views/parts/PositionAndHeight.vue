@@ -1,10 +1,12 @@
 <template>
-  <label>
-    <input type="number" name="number" max=230 min=162 v-model="position">
-  </label>
+  <div>
+    <label>
+      <input type="number" max=231 min=160 v-model="height">
+    </label>
+  </div>
 
   <div>
-    <select v-model="height">
+    <select v-model="position">
       <option disabled value="">1つ選んで下さい</option>
       <option value="Guards">ガード</option>
       <option value="Forwards">フォワード</option>
@@ -13,30 +15,32 @@
   </div>
 
   <div>
-    <span>{{ position }}</span>
-    <span> : </span>
-    <span>{{ height }} cm</span>
+    <label>
+      <input type="text" v-model="name">
+    </label>
   </div>
+
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, watchEffect } from 'vue';
 
+
 export default defineComponent({
   emits: ['passStatusToParent'],
   setup(props, { emit }) {
-    const position = ref<string>('')
-    const height = ref<number>(0)
+    const position = ref<string | null>(null)
+    const height = ref<number>(180)
+    const name = ref<string | null>(null)
 
     watchEffect(() => {
-      // const selectQuiz = new SelectQuizValueObject(selectedQuizType.value)
-      // const selectQuizStatus = selectQuiz.checkQuizType()
-      emit('passStatusToParent', { position: position, height: height })
+      emit('passStatusToParent', { position: position.value, height: height.value, name: name.value })
     })
 
     return {
       position,
-      height
+      height,
+      name
     }
   }
 });

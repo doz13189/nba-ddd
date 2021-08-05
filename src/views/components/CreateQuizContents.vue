@@ -1,12 +1,11 @@
 <template>
 
   <div>
-
-    <PositionAndHeight :position="'Center'" :height="'178'"/>
-    <PositionAndHeight :position="'Center'" :height="'178'"/>
-    <PositionAndHeight :position="'Center'" :height="'178'"/>
-    <PositionAndHeight :position="'Center'" :height="'178'"/>
-    <PositionAndHeight :position="'Center'" :height="'178'"/>
+    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(1, $event)"/>
+    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(2, $event)"/>
+    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(3, $event)"/>
+    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(4, $event)"/>
+    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(5, $event)"/>
   </div>
 
 </template>
@@ -27,23 +26,25 @@ export default defineComponent({
     PositionAndHeight
   },
   setup(props, { emit }) {
-    // const createQuizContentsOrder = new QuizContentsOrderValueObject(1)
-    new QuizContentsOrderValueObject(1)
-    new QuizContentsValueObject('Center', 212)
-    new CreateQuizContentsValueObject()
+    const createQuizContents = new CreateQuizContentsValueObject()
 
+    const updatePositionAndHeight = (order: number, event: { position: string, height: number, name: string,}) => {
+      console.log(order, event.position, event.height)
 
-    // const selectedQuizType = ref<string>('')
+      createQuizContents.updateQuizContents(
+        new QuizContentsOrderValueObject(order),
+        new QuizContentsValueObject(event.position, event.height, event.name)
+      )
 
-    // watchEffect(() => {
-    //   const selectQuiz = new SelectQuizValueObject(selectedQuizType.value)
-    //   const selectQuizStatus = selectQuiz.checkQuizType()
-      emit('passStatusToParent', { type: 'selectQuizType', status: true })
-    // })
+      const checkResult = createQuizContents.checkAllQuizContents()
+      if (checkResult) {
+        emit('passStatusToParent', { type: 'createQuizContents', status: true })
+      }
+    }
 
-    // return {
-    //   selectedQuizType
-    // }
+    return {
+      updatePositionAndHeight
+    }
   }
 });
 </script>

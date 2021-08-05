@@ -169,7 +169,9 @@ class QuizContentsOrderValueObject {
   }
 
   checkOrder(): void {
-    if (!(this._order in this._orderRange)) {
+    console.log(this._order, this._order in this._orderRange)
+    
+    if (!(this._orderRange.includes(this._order))) {
       throw new Error('不正なクイズ番号が選択されました')
     }
   }
@@ -194,21 +196,34 @@ class QuizContentsValueObject {
   // マグジー・ボーグスが NBA の歴史上一番低身長
   private _minHeight: number = 160
 
-  constructor(position: string, height: number) {
+  private _name: string
+
+  constructor(position: string, height: number, name: string) {
     this._position = position
     this.checkPosition()
 
     this._height = height
     this.checkHeight()
+
+    this._name = name
+    // this.checkHeight()
   }
 
   checkPosition(): void {
+    if (this._position === null) {
+      return
+    }
+
+    console.log('this._position 3', this._position)
+
     if (!(this._positions.includes(this._position))) {
       throw new Error('不正なポジションが選択されました')
     }
   }
 
   checkHeight(): void {
+    if (this._height === null) { return }
+
     if (this._height > this._maxHeight) {
       throw new Error('不正な身長が入力されました')
     }
@@ -221,14 +236,24 @@ class QuizContentsValueObject {
     return {
       position: this._position,
       height: this._height,
+      name: this._name,
     }
+  }
+
+  get maxHeight(): number {
+    return this._maxHeight
+  }
+
+  get minHeight(): number {
+    return this._minHeight
   }
 
 }
 
 interface QuizContentsInterface {
   position: string | null,
-  height: number | null
+  height: number | null,
+  name: string | null
 }
 
 class CreateQuizContentsValueObject {
@@ -239,15 +264,24 @@ class CreateQuizContentsValueObject {
   }
 
   initialQuizContents(): void {
-    this._quizContents.set(1, { position: null, height: null })
-    this._quizContents.set(2, { position: null, height: null })
-    this._quizContents.set(3, { position: null, height: null })
-    this._quizContents.set(4, { position: null, height: null })
-    this._quizContents.set(5, { position: null, height: null })
+    this._quizContents.set(1, { position: null, height: null, name: null })
+    this._quizContents.set(2, { position: null, height: null, name: null })
+    this._quizContents.set(3, { position: null, height: null, name: null })
+    this._quizContents.set(4, { position: null, height: null, name: null })
+    this._quizContents.set(5, { position: null, height: null, name: null })
   }
 
-  addQuizContents(quizContentsOrder: QuizContentsOrderValueObject, quizContents: QuizContentsValueObject): void {
+  updateQuizContents(quizContentsOrder: QuizContentsOrderValueObject, quizContents: QuizContentsValueObject): void {
     this._quizContents.set(quizContentsOrder.order, quizContents.quizContents)
+  }
+
+  checkAllQuizContents() {
+    for (const [key, value] of this._quizContents) {
+      if (!value.height) { return false }
+      if (!value.position) { return false }
+      if (!value.name) { return false }
+    }
+    return true
   }
 
 }

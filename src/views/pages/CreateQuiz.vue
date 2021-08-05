@@ -16,7 +16,15 @@
     </div>
 
     <div v-if="reactiveActiveProcess.createQuizContents">
-      <CreateQuizContents/>
+      <CreateQuizContents
+        @passStatusToParent="updateProcessComplete($event)"
+        />
+        
+      <GoNextCreatingProcess
+        @passStatusToParent="updateActiveProcess($event)"
+        :goNextButtonType="'createQuizContents'"
+        :goNextButtonStatus="reactiveProcessComplete.createQuizContents"
+        />
     </div>
 
     <!-- reactiveActiveProcess: {{ reactiveActiveProcess.get('selectQuizType') }}
