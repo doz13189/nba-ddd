@@ -15,7 +15,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, watchEffect } from 'vue';
-import { SelectQuizValueObject } from '@/domain/models/Quiz'
+import { SelectQuizTypeValueObject } from '@/domain/models/CreateQuiz/SelectQuizType'
+
 
 export default defineComponent({
   emits: ['passStatusToParent'],
@@ -23,7 +24,7 @@ export default defineComponent({
     const selectedQuizType = ref<string>('')
 
     watchEffect(() => {
-      const selectQuiz = new SelectQuizValueObject(selectedQuizType.value)
+      const selectQuiz = new SelectQuizTypeValueObject(selectedQuizType.value)
       
       const selectQuizStatus = selectQuiz.checkQuizType()
       emit('passStatusToParent', { type: 'selectQuizType', status: selectQuizStatus })

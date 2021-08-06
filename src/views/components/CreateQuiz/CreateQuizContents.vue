@@ -12,13 +12,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import PositionAndHeight from '@/views/parts/PositionAndHeight.vue';
+import PositionAndHeight from '@/views/components/CreateQuiz/PositionAndHeight.vue'
 
 import {
   QuizContentsOrderValueObject,
   QuizContentsValueObject,
   CreateQuizContentsValueObject
-} from '@/domain/models/Quiz'
+} from '@/domain/models/CreateQuiz/QuizContents'
 
 
 export default defineComponent({

@@ -57,15 +57,15 @@
 </template>
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
-import SelectQuizType from '@/views/components/SelectQuizType.vue'
-import SelectAnswerType from '@/views/components/SelectAnswerType.vue'
-import CreateQuizContents from '@/views/components/CreateQuizContents.vue'
-import CreateAnswer from '@/views/components/CreateAnswer.vue'
-import DecideTitle from '@/views/components/DecideTitle.vue'
-import SaveQuiz from '@/views/components/SaveQuiz.vue'
-import GoNextCreatingProcess from '@/views/components/GoNextCreatingProcess.vue'
+import SelectQuizType from '@/views/components/CreateQuiz/SelectQuizType.vue'
+import SelectAnswerType from '@/views/components/CreateQuiz/SelectAnswerType.vue'
+import CreateQuizContents from '@/views/components/CreateQuiz/CreateQuizContents.vue'
+import CreateAnswer from '@/views/components/CreateQuiz/CreateAnswer.vue'
+import DecideTitle from '@/views/components/CreateQuiz/DecideTitle.vue'
+import SaveQuiz from '@/views/components/CreateQuiz/SaveQuiz.vue'
+import GoNextCreatingProcess from '@/views/components/CreateQuiz/GoNextCreatingProcess.vue'
 
-import { ProcessManagementEntity } from '@/domain/models/Quiz'
+import { ProcessManagementEntity } from '@/domain/models/CreateQuiz/ProcessManagement'
 
 export default defineComponent({
   components: {
