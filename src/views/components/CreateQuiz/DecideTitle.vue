@@ -2,15 +2,31 @@
 
   <div>
     <label for="name">タイトル</label>
-    <input type="text" required minlength="4" maxlength="8" size="10">
+    <input type="text" v-model="refTitle">
   </div>
 
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, watchEffect, ref } from 'vue';
+import { DecideTitleValueObject } from '@/domain/models/CreateQuiz/DecideTitle'
 
 export default defineComponent({
+  emits: ['passStatusToParent'],
+  setup(props, { emit }) {
+    const refTitle = ref<string>('')
+
+    watchEffect(() => {
+      const decideTitle = new DecideTitleValueObject(refTitle.value)
+      
+      const checkResult = decideTitle.checkTitle()
+      emit('passStatusToParent', { type: 'decideTitle', status: checkResult })
+    })
+
+    return {
+      refTitle
+    }
+  }
 });
 </script>
 

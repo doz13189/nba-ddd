@@ -29,36 +29,39 @@
         />
     </div>
 
-    <div v-if="reactiveActiveProcess.selectAnswerType">
-      <SelectAnswerType
+    <div v-if="reactiveActiveProcess.createAnswer">
+      <CreateAnswer
         @passStatusToParent="updateProcessComplete($event)"
         />
 
       <GoNextCreatingProcess
         @passStatusToParent="updateActiveProcess($event)"
-        :goNextButtonType="'selectAnswerType'"
-        :goNextButtonStatus="reactiveProcessComplete.selectAnswerType"
+        :goNextButtonType="'createAnswer'"
+        :goNextButtonStatus="reactiveProcessComplete.createAnswer"
         />
     </div>
 
-    <!-- <div v-if="createAnswerActiveProcess"> -->
-      <CreateAnswer/>
-    <!-- </div> -->
+    <div v-if="reactiveActiveProcess.decideTitle">
+      <DecideTitle
+        @passStatusToParent="updateProcessComplete($event)"
+        />
 
-    <!-- <div v-if="decideTitleActiveProcess"> -->
-      <DecideTitle/>
-    <!-- </div> -->
+      <GoNextCreatingProcess
+        @passStatusToParent="updateActiveProcess($event)"
+        :goNextButtonType="'decideTitle'"
+        :goNextButtonStatus="reactiveProcessComplete.decideTitle"
+        />
+    </div>
 
-    <!-- <div v-if="saveQuizActiveProcess"> -->
+    <div v-if="reactiveActiveProcess.saveQuiz">
       <SaveQuiz/>
-    <!-- </div> -->
+    </div>
 
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
 import SelectQuizType from '@/views/components/CreateQuiz/SelectQuizType.vue'
-import SelectAnswerType from '@/views/components/CreateQuiz/SelectAnswerType.vue'
 import CreateQuizContents from '@/views/components/CreateQuiz/CreateQuizContents.vue'
 import CreateAnswer from '@/views/components/CreateQuiz/CreateAnswer.vue'
 import DecideTitle from '@/views/components/CreateQuiz/DecideTitle.vue'
@@ -71,7 +74,6 @@ export default defineComponent({
   components: {
     SelectQuizType,
     CreateQuizContents,
-    SelectAnswerType,
     CreateAnswer,
     DecideTitle,
     SaveQuiz,

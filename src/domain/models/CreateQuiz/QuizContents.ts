@@ -101,10 +101,10 @@ class CreateQuizContentsValueObject {
 
   initialQuizContents(): void {
     this._quizContents.set(1, { position: null, height: null, name: null })
-    this._quizContents.set(2, { position: null, height: null, name: null })
-    this._quizContents.set(3, { position: null, height: null, name: null })
-    this._quizContents.set(4, { position: null, height: null, name: null })
-    this._quizContents.set(5, { position: null, height: null, name: null })
+    // this._quizContents.set(2, { position: null, height: null, name: null })
+    // this._quizContents.set(3, { position: null, height: null, name: null })
+    // this._quizContents.set(4, { position: null, height: null, name: null })
+    // this._quizContents.set(5, { position: null, height: null, name: null })
   }
 
   updateQuizContents(quizContentsOrder: QuizContentsOrderValueObject, quizContents: QuizContentsValueObject): void {

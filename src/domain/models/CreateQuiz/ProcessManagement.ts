@@ -14,7 +14,6 @@ class ProcessManagementEntity {
   initialSetActiveProcess(): void {
     this._activeProcess.set('selectQuizType', true)
     this._activeProcess.set('createQuizContents', false)
-    this._activeProcess.set('selectAnswerType', false)
     this._activeProcess.set('createAnswer', false)
     this._activeProcess.set('decideTitle', false)
     this._activeProcess.set('saveQuiz', false)
@@ -23,7 +22,6 @@ class ProcessManagementEntity {
   initialSetProcessComplete(): void {
     this._processComplete.set('selectQuizType', false)
     this._processComplete.set('createQuizContents', false)
-    this._processComplete.set('selectAnswerType', false)
     this._processComplete.set('createAnswer', false)
     this._processComplete.set('decideTitle', false)
     this._processComplete.set('saveQuiz', false)
@@ -32,10 +30,9 @@ class ProcessManagementEntity {
   initialSetProcessOrder(): void {
     this._processOrder.set('selectQuizType', 1)
     this._processOrder.set('createQuizContents', 2)
-    this._processOrder.set('selectAnswerType', 3)
-    this._processOrder.set('createAnswer', 4)
-    this._processOrder.set('decideTitle', 5)
-    this._processOrder.set('saveQuiz', 6)
+    this._processOrder.set('createAnswer', 3)
+    this._processOrder.set('decideTitle', 4)
+    this._processOrder.set('saveQuiz', 5)
   }
 
   setActiveProcess(processType: string, processStatus: boolean): void {

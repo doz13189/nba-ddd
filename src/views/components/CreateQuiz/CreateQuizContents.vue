@@ -2,10 +2,12 @@
 
   <div>
     <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(1, $event)"/>
+    <!-- 
     <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(2, $event)"/>
     <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(3, $event)"/>
     <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(4, $event)"/>
     <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(5, $event)"/>
+    -->
   </div>
 
 </template>
