@@ -20,6 +20,7 @@ import {
   CreateQuizContentsValueObject
 } from '@/domain/models/Quiz'
 
+
 export default defineComponent({
   emits: ['passStatusToParent'],
   components: {
@@ -29,7 +30,6 @@ export default defineComponent({
     const createQuizContents = new CreateQuizContentsValueObject()
 
     const updatePositionAndHeight = (order: number, event: { position: string, height: number, name: string,}) => {
-      console.log(order, event.position, event.height)
 
       createQuizContents.updateQuizContents(
         new QuizContentsOrderValueObject(order),

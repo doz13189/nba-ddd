@@ -7,7 +7,7 @@
       <select v-model="selectedQuizType">
         <option disabled value="">1つ選んで下さい</option>
         <option value="1">このチームはどこ？</option>
-        <option value="2">この画像の人はだれ？</option>
+        <!-- <option value="2">この画像の人はだれ？</option> -->
       </select>
     </div>
 

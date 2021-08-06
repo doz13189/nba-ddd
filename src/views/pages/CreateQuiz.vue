@@ -1,7 +1,9 @@
 <template>
   <div>
 
-    <h1>クイズを作る</h1>
+    <div class="has-text-centered block">
+      <h1 class="title">クイズを作る</h1>
+    </div>
 
     <div v-if="reactiveActiveProcess.selectQuizType">
       <SelectQuizType
@@ -27,15 +29,17 @@
         />
     </div>
 
-    <!-- reactiveActiveProcess: {{ reactiveActiveProcess.get('selectQuizType') }}
-    reactiveActiveProcess: {{ reactiveActiveProcess.get('createQuizContents') }}
+    <div v-if="reactiveActiveProcess.selectAnswerType">
+      <SelectAnswerType
+        @passStatusToParent="updateProcessComplete($event)"
+        />
 
-    reactiveProcessComplete: {{ reactiveProcessComplete.get('selectQuizType') }}
-    reactiveProcessComplete: {{ reactiveProcessComplete.get('createQuizContents') }} -->
-
-    <!-- <div v-if="selectAnswerTypeActiveProcess"> -->
-      <SelectAnswerType/>
-    <!-- </div> -->
+      <GoNextCreatingProcess
+        @passStatusToParent="updateActiveProcess($event)"
+        :goNextButtonType="'selectAnswerType'"
+        :goNextButtonStatus="reactiveProcessComplete.selectAnswerType"
+        />
+    </div>
 
     <!-- <div v-if="createAnswerActiveProcess"> -->
       <CreateAnswer/>

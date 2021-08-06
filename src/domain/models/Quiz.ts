@@ -138,7 +138,6 @@ class ProcessManagementEntity {
 
   updateActiveProcess(updateTargetObject: { [index: string]: boolean }): void {
     // 値オブジェクトの変更をオブジェクトに反映
-    // 
     for (const [key, value] of this._activeProcess) {
       updateTargetObject[key] = value
     }
@@ -163,14 +162,7 @@ class QuizContentsOrderValueObject {
     this.checkOrder()
   }
 
-  goNextOrder(): QuizContentsOrderValueObject {
-    this._order ++
-    return new QuizContentsOrderValueObject(this._order)
-  }
-
   checkOrder(): void {
-    console.log(this._order, this._order in this._orderRange)
-    
     if (!(this._orderRange.includes(this._order))) {
       throw new Error('不正なクイズ番号が選択されました')
     }
@@ -213,8 +205,6 @@ class QuizContentsValueObject {
     if (this._position === null) {
       return
     }
-
-    console.log('this._position 3', this._position)
 
     if (!(this._positions.includes(this._position))) {
       throw new Error('不正なポジションが選択されました')
@@ -285,6 +275,8 @@ class CreateQuizContentsValueObject {
   }
 
 }
+
+
 
 export {
   SelectQuizValueObject,

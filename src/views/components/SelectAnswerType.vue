@@ -5,8 +5,8 @@
 
     <div>
       <select name="pets" id="pet-select">
-          <option value="cat">自由記入</option>
-          <option value="dog">4択</option>
+          <option value="free">自由記入</option>
+          <option value="team">チーム選択</option>
       </select>
     </div>
 
@@ -16,6 +16,14 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
+  emits: ['passStatusToParent'],
+  setup(props, { emit }) {
+
+    emit('passStatusToParent', { type: 'createQuizContents', status: true })
+
+    return {
+    }
+  }
 });
 </script>
 
