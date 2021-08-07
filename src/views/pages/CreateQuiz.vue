@@ -68,7 +68,10 @@ import DecideTitle from '@/views/components/CreateQuiz/DecideTitle.vue'
 import SaveQuiz from '@/views/components/CreateQuiz/SaveQuiz.vue'
 import GoNextCreatingProcess from '@/views/components/CreateQuiz/GoNextCreatingProcess.vue'
 
-import { ProcessManagementEntity } from '@/domain/models/CreateQuiz/ProcessManagement'
+import {
+  ProcessManagementEntity,
+  ProcessManagementValueObject
+} from '@/domain/models/CreateQuiz/ProcessManagement'
 
 export default defineComponent({
   components: {
@@ -80,23 +83,25 @@ export default defineComponent({
     GoNextCreatingProcess
   },
   setup() {
-    const processManagement = new ProcessManagementEntity()
+    const processManagementEntity = new ProcessManagementEntity()
 
-    const activeProcess = processManagement.exportActiveProcess()
+    const activeProcess = processManagementEntity.exportActiveProcess()
     const reactiveActiveProcess = reactive(activeProcess)
 
-    const processComplete = processManagement.exportProcessComplete()
-    const reactiveProcessComplete = reactive(processComplete)
-
-    const updateActiveProcess = (event: { type: string, status: boolean}) => {
-      processManagement.setActiveProcess(event.type, event.status)
-      processManagement.setNextActiveProcess(event.type)
-      processManagement.updateActiveProcess(reactiveActiveProcess)
+    const updateActiveProcess = (event: { type: string }) => {
+      processManagementEntity.setNextActiveProcess(event.type)
+      processManagementEntity.updateActiveProcess(reactiveActiveProcess)
     }
 
+
+    const processManagementValueObject = new ProcessManagementValueObject()
+
+    const processComplete = processManagementValueObject.exportProcessComplete()
+    const reactiveProcessComplete = reactive(processComplete)
+
     const updateProcessComplete = (event: { type: string, status: boolean}) => {
-      processManagement.setProcessComplete(event.type, event.status)
-      processManagement.updateProcessComplete(reactiveProcessComplete)
+      processManagementValueObject.setProcessComplete(event.type, event.status)
+      processManagementValueObject.updateProcessComplete(reactiveProcessComplete)
     }
 
     return {

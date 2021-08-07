@@ -20,7 +20,7 @@ export default defineComponent({
     })
 
     const goNext = (() => {
-      emit('passStatusToParent', { type: props.goNextButtonType, status: false })
+      emit('passStatusToParent', { type: props.goNextButtonType })
     })
 
     return {
