@@ -13,7 +13,7 @@
       <GoNextCreatingProcess
         @passStatusToParent="updateActiveProcess($event)"
         :goNextButtonType="'selectQuizType'"
-        :goNextButtonStatus="reactiveProcessComplete.selectQuizType"
+        :goNextButtonStatus="reactiveProcessComplete"
         />
     </div>
 
@@ -25,7 +25,7 @@
       <GoNextCreatingProcess
         @passStatusToParent="updateActiveProcess($event)"
         :goNextButtonType="'createQuizContents'"
-        :goNextButtonStatus="reactiveProcessComplete.createQuizContents"
+        :goNextButtonStatus="reactiveProcessComplete"
         />
     </div>
 
@@ -37,7 +37,7 @@
       <GoNextCreatingProcess
         @passStatusToParent="updateActiveProcess($event)"
         :goNextButtonType="'createAnswer'"
-        :goNextButtonStatus="reactiveProcessComplete.createAnswer"
+        :goNextButtonStatus="reactiveProcessComplete"
         />
     </div>
 
@@ -49,7 +49,7 @@
       <GoNextCreatingProcess
         @passStatusToParent="updateActiveProcess($event)"
         :goNextButtonType="'decideTitle'"
-        :goNextButtonStatus="reactiveProcessComplete.decideTitle"
+        :goNextButtonStatus="reactiveProcessComplete"
         />
     </div>
 

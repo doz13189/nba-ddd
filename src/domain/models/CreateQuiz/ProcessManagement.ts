@@ -1,17 +1,39 @@
+class MapAccessHandler {
+  // 責務 : Map の getter & setter。エラーハンドラは共通で使用するため実装。
+
+  getMapAccessHandler(targetMap: Map<any, any>, key: any, caller: string): any {
+    const getResult = targetMap.get(key)
+    if (getResult !== undefined) {
+      return getResult
+    }
+
+    throw new Error(`${targetMap} に ${key} は存在しません。`)
+  }
+
+  setMapAccessHandler(targetMap: Map<any, any>, key: any, value: any): void {
+    // targetMap に key が存在していることを確認した上で、set 実行
+    this.getMapAccessHandler(targetMap, key, 'setMapAccessHandler')
+    targetMap.set(key, value)
+  }
+}
 
 
-class ProcessManagementEntity {
+class ProcessManagementEntity extends  MapAccessHandler {
+  // 責務 : クイズ作成工程のステータス管理
   private _activeProcess =  new Map<string, boolean>()
   private _processComplete =  new Map<string, boolean>()
   private _processOrder =  new Map<string, number>()
   
   constructor() {
+    super()
+
     this.initialSetActiveProcess()
     this.initialSetProcessComplete()
     this.initialSetProcessOrder()
   }
 
   initialSetActiveProcess(): void {
+    // 責務 : クイズ作成工程に対応した画面の表示・非表示を管理する Map の初期値
     this._activeProcess.set('selectQuizType', true)
     this._activeProcess.set('createQuizContents', false)
     this._activeProcess.set('createAnswer', false)
@@ -20,6 +42,7 @@ class ProcessManagementEntity {
   }
 
   initialSetProcessComplete(): void {
+    // 責務 : クイズ作成工程のステータスの初期値
     this._processComplete.set('selectQuizType', false)
     this._processComplete.set('createQuizContents', false)
     this._processComplete.set('createAnswer', false)
@@ -28,6 +51,7 @@ class ProcessManagementEntity {
   }
 
   initialSetProcessOrder(): void {
+    // 責務 : クイズ作成工程の順序
     this._processOrder.set('selectQuizType', 1)
     this._processOrder.set('createQuizContents', 2)
     this._processOrder.set('createAnswer', 3)
@@ -36,17 +60,19 @@ class ProcessManagementEntity {
   }
 
   setActiveProcess(processType: string, processStatus: boolean): void {
-    this._activeProcess.set(processType, processStatus)
+    // 責務 : setter
+    this.setMapAccessHandler(this._activeProcess, processType, processStatus)
   }
 
-  getActiveProcess(processType: string): boolean {
-    const getResult = this._activeProcess.get(processType)
-
-    if (getResult) { return true }
-    return false
+  setProcessComplete(processType: string, processStatus: boolean): void {
+    // 責務 : setter
+    this.setMapAccessHandler(this._processComplete, processType, processStatus)
   }
+
 
   setNextActiveProcess(processType: string): void {
+    // 責務 :  クイズ作成工程で次に表示するべき画面に対応する工程のステータスの setter
+
     const getResult: number | undefined = this._processOrder.get(processType)
     if (!getResult) { throw new Error('プロセスタイプが見つかりません。')}
     // Map へのアクセスのエラーハンドラを持った関数を用意するべき
@@ -64,16 +90,6 @@ class ProcessManagementEntity {
     // throw new Error('次の工程のプロセスタイプが見つかりません。')
   }
 
-  setProcessComplete(processType: string, processStatus: boolean): void {
-    this._processComplete.set(processType, processStatus)
-  }
-
-  getProcessComplete(processType: string): boolean {
-    const getResult = this._processComplete.get(processType)
-
-    if (getResult) { return true }
-    return false
-  }
 
   exportActiveProcess(): { [index: string]: boolean } {
     // new Map() はリアクティブオブジェクトとして扱えないためオブジェクトに変換

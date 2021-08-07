@@ -68,8 +68,6 @@ export default defineComponent({
       const team = new TeamValueObject(inputTeam.value)
       const checkResult = team.checkTeam()
 
-      console.log({checkResult})
-
       emit('passStatusToParent', { type: 'createAnswer', status: checkResult })
 
     })
@@ -77,8 +75,6 @@ export default defineComponent({
     watchEffect(() => {
       const team = new TeamValueObject(selectedTeam.value)
       const checkResult = team.checkTeam()
-
-      console.log({checkResult})
 
       emit('passStatusToParent', { type: 'createAnswer', status: checkResult })
 
