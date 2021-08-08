@@ -60,7 +60,13 @@ export default defineComponent({
     const reactiveAnswerTypeControl = reactive(answerTypeControl)
 
     watchEffect(() => {
+
+      // 回答タイプを変更したタイミングで値を初期化
+      inputTeam.value = ''
+      selectedTeam.value = ''
+
       const selectAnswerType = new SelectAnswerTypeValueObject(refAnswerType.value)
+
       const checkResult = selectAnswerType.checkAnswerType()
       if (checkResult) {
 
@@ -72,6 +78,7 @@ export default defineComponent({
     })
 
     watchEffect(() => {
+
       const team = new TeamValueObject(inputTeam.value)
       const checkResult = team.checkTeam()
 
@@ -80,6 +87,7 @@ export default defineComponent({
     })
 
     watchEffect(() => {
+
       const team = new TeamValueObject(selectedTeam.value)
       const checkResult = team.checkTeam()
 

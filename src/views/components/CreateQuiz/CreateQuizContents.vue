@@ -3,9 +3,9 @@
   <div>
     <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('one', $event)" title="1人目"/>
     <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('two', $event)" title="2人目"/>
-    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('three', $event)" title="3人目"/>
-    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('four', $event)" title="4人目"/>
-    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('five', $event)" title="5人目"/>
+    <!-- <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('three', $event)" title="3人目"/> -->
+    <!-- <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('four', $event)" title="4人目"/> -->
+    <!-- <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('five', $event)" title="5人目"/> -->
   </div>
 
 </template>
@@ -35,26 +35,24 @@ export default defineComponent({
     const updatePositionAndHeight = (passedOrder: string, event: { position: string, height: number, name: string,}) => {
 
       const order = new OrderValueObject(passedOrder)
+      if (order.checkOrder()) { emit('passStatusToParent', { type: 'createQuizContents', status: false }) }
+
       const position = new PositionValueObject(event.position)
+      if (position.checkPosition()) { emit('passStatusToParent', { type: 'createQuizContents', status: false }) }
+
       const height = new HeightValueObject(event.height)
+      if (height.checkHeight()) { emit('passStatusToParent', { type: 'createQuizContents', status: false }) }
+
       const name = new NameValueObject(event.name)
+      if (name.checkName()) { emit('passStatusToParent', { type: 'createQuizContents', status: false }) }
 
-      if (
-        order.checkOrder() &&
-        position.checkPosition() &&
-        height.checkHeight() &&
-        name.checkName()
-      ) {
+      createQuizContents.updateQuizContents(order, position, height, name)
 
-        createQuizContents.updateQuizContents(order, position, height, name)
-
-        const checkResult = createQuizContents.checkAllQuizContents()
-        if (checkResult) {
-          emit('passStatusToParent', { type: 'createQuizContents', status: true })
-        }
-
+      const checkResult = createQuizContents.checkAllQuizContents()
+      if (checkResult) {
+        emit('passStatusToParent', { type: 'createQuizContents', status: true })
       }
-
+      
     }
 
     return {

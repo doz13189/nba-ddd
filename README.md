@@ -3,6 +3,9 @@
 ## パッケージ図
 https://docs.google.com/spreadsheets/d/1cPxA91XbwgMuFw-RWi7NOMjOuS8Q6drFRlR316xikE0/edit#gid=0
 
+## URL
+https://nba-quiz-23.web.app/
+
 
 ## コンセプト
 
