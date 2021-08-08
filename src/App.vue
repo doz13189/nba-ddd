@@ -1,8 +1,14 @@
 <template>
-  <router-view/>
+  <div class="all">
+    <router-view/>
+  </div>
 </template>
 
 <style>
+.all {
+  font-family: Yu Gothic, arial;
+}
+    
 /* #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -6,6 +6,7 @@ import MultiplePlayers from '../views/pages/MultiplePlayers.vue'
 import OnePlayer from '../views/pages/OnePlayer.vue'
 import Host from '../views/pages/Host.vue'
 import Guest from '../views/pages/Guest.vue'
+import ComingSoon from '../views/pages/ComingSoon.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -18,7 +19,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/answerQuiz',
-    component: AnswerQuiz
+    // component: AnswerQuiz
+    component: ComingSoon
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
