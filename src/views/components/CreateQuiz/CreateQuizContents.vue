@@ -3,9 +3,9 @@
   <div>
     <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('one', $event)" title="1人目"/>
     <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('two', $event)" title="2人目"/>
-    <!-- <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('three', $event)" title="3人目"/> -->
-    <!-- <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('four', $event)" title="4人目"/> -->
-    <!-- <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('five', $event)" title="5人目"/> -->
+    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('three', $event)" title="3人目"/>
+    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('four', $event)" title="4人目"/>
+    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('five', $event)" title="5人目"/>
   </div>
 
 </template>
