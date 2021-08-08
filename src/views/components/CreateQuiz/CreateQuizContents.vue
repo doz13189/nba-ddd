@@ -1,12 +1,12 @@
 <template>
 
   <div>
-    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(1, $event)"/>
+    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('one', $event)"/>
     <!-- 
-    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(2, $event)"/>
-    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(3, $event)"/>
-    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(4, $event)"/>
-    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight(5, $event)"/>
+    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('two', $event)"/>
+    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('three', $event)"/>
+    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('four', $event)"/>
+    <PositionAndHeight @passStatusToParent="($event) => updatePositionAndHeight('five', $event)"/>
     -->
   </div>
 
@@ -14,12 +14,15 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+
 import PositionAndHeight from '@/views/components/CreateQuiz/PositionAndHeight.vue'
 
 import {
-  QuizContentsOrderValueObject,
-  QuizContentsValueObject,
-  CreateQuizContentsValueObject
+  OrderValueObject,
+  HeightValueObject,
+  PositionValueObject,
+  NameValueObject,
+  CreateQuizContentsEntity
 } from '@/domain/models/CreateQuiz/QuizContents'
 
 
@@ -29,19 +32,31 @@ export default defineComponent({
     PositionAndHeight
   },
   setup(props, { emit }) {
-    const createQuizContents = new CreateQuizContentsValueObject()
+    const createQuizContents = new CreateQuizContentsEntity()
 
-    const updatePositionAndHeight = (order: number, event: { position: string, height: number, name: string,}) => {
+    const updatePositionAndHeight = (passedOrder: string, event: { position: string, height: number, name: string,}) => {
 
-      createQuizContents.updateQuizContents(
-        new QuizContentsOrderValueObject(order),
-        new QuizContentsValueObject(event.position, event.height, event.name)
-      )
+      const order = new OrderValueObject(passedOrder)
+      const position = new PositionValueObject(event.position)
+      const height = new HeightValueObject(event.height)
+      const name = new NameValueObject(event.name)
 
-      const checkResult = createQuizContents.checkAllQuizContents()
-      if (checkResult) {
-        emit('passStatusToParent', { type: 'createQuizContents', status: true })
+      if (
+        order.checkOrder() &&
+        position.checkPosition() &&
+        height.checkHeight() &&
+        name.checkName()
+      ) {
+
+        createQuizContents.updateQuizContents(order, position, height, name)
+
+        const checkResult = createQuizContents.checkAllQuizContents()
+        if (checkResult) {
+          emit('passStatusToParent', { type: 'createQuizContents', status: true })
+        }
+
       }
+
     }
 
     return {

@@ -4,10 +4,10 @@
     </div>
 
     <div>
+      <p>1つ選んで下さい</p>
       <select v-model="refAnswerType">
-        <option disabled value="">1つ選んで下さい</option>
-        <option value="free">自由記入</option>
-        <option value="team">チーム選択</option>
+        <option value="free">{{ answerTypeService.getAnswerType('free') }}</option>
+        <option value="team">{{ answerTypeService.getAnswerType('team') }}</option>
       </select>
     </div>
 
@@ -29,6 +29,7 @@
 <script lang="ts">
 import { defineComponent, ref, watchEffect, reactive } from 'vue';
 import {
+  AnswerTypeService,
   SelectAnswerTypeValueObject,
   AnswerTypeControlEntity,
   TeamValueObject,
@@ -39,6 +40,8 @@ import {
 export default defineComponent({
   emits: ['passStatusToParent'],
   setup(props, { emit }) {
+
+    const answerTypeService = new AnswerTypeService()
 
     const teamService = new TeamService()
     const teamArray =  teamService.exportTeamAsArray()
@@ -81,6 +84,7 @@ export default defineComponent({
     })
 
     return {
+      answerTypeService,
       refAnswerType,
       refTeam,
       inputTeam,

@@ -1,13 +1,14 @@
 <template>
-    <div>
-      <label for="pet-select">作るクイズのタイプを選ぶ</label>
+    <div class="block">
+      <p>作るクイズのタイプを選ぶ</p>
     </div>
 
-    <div>
+    <div class="block">
+      <p>1つ選んで下さい</p>
+
       <select v-model="selectedQuizType">
-        <option disabled value="">1つ選んで下さい</option>
-        <option value="1">このチームはどこ？</option>
-        <!-- <option value="2">この画像の人はだれ？</option> -->
+        <option value="team">{{ quizType.getQuizType('team') }}</option>
+        <!-- <option value="player">{{ quizType.getQuizType('player') }}</option> -->
       </select>
     </div>
 
@@ -15,7 +16,11 @@
 
 <script lang="ts">
 import { defineComponent, ref, watchEffect } from 'vue';
-import { SelectQuizTypeValueObject } from '@/domain/models/CreateQuiz/SelectQuizType'
+
+import {
+  SelectQuizTypeValueObject,
+  quizTypeValueObject
+} from '@/domain/models/CreateQuiz/SelectQuizType'
 
 
 export default defineComponent({
@@ -30,8 +35,11 @@ export default defineComponent({
       emit('passStatusToParent', { type: 'selectQuizType', status: selectQuizStatus })
     })
 
+    const quizType = new quizTypeValueObject()
+
     return {
-      selectedQuizType
+      selectedQuizType,
+      quizType
     }
   }
 });

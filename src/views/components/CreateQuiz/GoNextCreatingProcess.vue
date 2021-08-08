@@ -1,6 +1,8 @@
 <template>
 
-  <button type="button" v-on:click="goNext" :disabled="!localGoNextButtonStatus">次に進む</button>
+  <div class="has-text-centered block">
+    <button type="button" class="button is-primary is-rounded" v-on:click="goNext" :disabled="!localGoNextButtonStatus">次に進む</button>
+  </div>
 
 </template>
 

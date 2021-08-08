@@ -1,26 +1,54 @@
-class SelectQuizTypeValueObject {
-  private _selectedQuizType: string
+import { MapAccessHandler } from '@/utils/mapAccessHandler'
+
+
+class quizTypeValueObject extends MapAccessHandler {
+  // 責務 : クイズタイプの属性値を持つ。
+
   private _quizTypeMap = new Map<string, string>()
-  
-  constructor(selectedQuizType: string) {
+
+  constructor() {
+    super()
     this.setQuizType()
-    this._selectedQuizType = selectedQuizType
   }
 
   setQuizType(): void {
-    this._quizTypeMap.set('1', 'このチームはどこ？')
-    this._quizTypeMap.set('2', 'この画像の人はだれ？')
+    this._quizTypeMap.set('team', 'このチームはどこ？')
+    this._quizTypeMap.set('player', 'この画像の人はだれ？')
+  }
+
+  getQuizType(key: string): string {
+    const getResult = this.getMapAccessHandler(this._quizTypeMap, key)
+    return getResult
+  }
+
+}
+
+
+class SelectQuizTypeValueObject extends quizTypeValueObject {
+  private _selectedQuizType: string
+  
+  constructor(selectedQuizType: string) {
+    super()
+
+    this._selectedQuizType = selectedQuizType
   }
 
   checkQuizType(): boolean {
-    const getResult = this._quizTypeMap.get(this._selectedQuizType)
+    // 初期値だった場合
+    if (this._selectedQuizType === '') { return false }
 
+    const getResult = this.getQuizType(this._selectedQuizType)
+
+    // 正しい値が設定されている場合
     if (getResult) { return true }
+
+    // 不正な値が設定されている場合
     return false
   }
 
 }
 
 export {
+  quizTypeValueObject,
   SelectQuizTypeValueObject
 }

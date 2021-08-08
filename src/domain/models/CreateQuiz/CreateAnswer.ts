@@ -1,13 +1,40 @@
+import { MapAccessHandler } from '@/utils/mapAccessHandler'
 
-class SelectAnswerTypeValueObject {
+
+class AnswerTypeService extends MapAccessHandler {
+  // 責務 : クイズ回答タイプの属性値を持つ。
+
+  private _answerType = new Map<string, string>()
+
+  constructor() {
+    super()
+    this.initialSetAnswerType()
+  }
+
+  initialSetAnswerType(): void {
+    this._answerType.set('free', '自由記入')
+    this._answerType.set('team', 'チーム選択')
+  }
+
+  getAnswerType(key: string): string {
+    const getResult = this.getMapAccessHandler(this._answerType, key)
+    return getResult
+  }
+
+  exportAnswerTypeKey(): Array<string>{
+    const answerTypeKeys = this._answerType.keys()
+    return [...answerTypeKeys]
+  }
+
+}
+
+class SelectAnswerTypeValueObject extends AnswerTypeService {
 
   private _selectedAnswerType: string
-  private _answerType: Array<string> = [
-    'free',
-    'team'
-  ]
 
   constructor(selectedAnswerType: string) {
+    super()
+
     this._selectedAnswerType = selectedAnswerType
   }
 
@@ -16,11 +43,10 @@ class SelectAnswerTypeValueObject {
       return false
     }
 
-    if (!(this._answerType.includes(this._selectedAnswerType))) {
-      throw new Error('不正な回答タイプが選択されました')
-    }
+    const getResult = this.getAnswerType(this._selectedAnswerType)
+    if (getResult) { return true }
+    return false
 
-    return true
   }
 
   get selectedAnswerType(): string {
@@ -30,33 +56,31 @@ class SelectAnswerTypeValueObject {
 }
 
 
-class AnswerTypeControlEntity {
+class AnswerTypeControlEntity extends AnswerTypeService {
   private _answerTypeControl = new Map<string, boolean>()
 
   constructor() {
+    super()
+
     this.setAllAnswerTypeControl()
   }
 
   setAllAnswerTypeControl(): void {
-    this._answerTypeControl.set('free', false)
-    this._answerTypeControl.set('team', false)
+    this.exportAnswerTypeKey().forEach((vavlue) => {
+      this._answerTypeControl.set(vavlue, false)
+      this._answerTypeControl.set(vavlue, false)
+    })
   }
 
   setAnswerTypeControl(processType: string): void {
+
     for (const [key, value] of this._answerTypeControl) {
-      this._answerTypeControl.set(key, false)
+      this.setMapAccessHandler(this._answerTypeControl, key, false)
     }
-
-    this._answerTypeControl.set(processType, true)
+    this.setMapAccessHandler(this._answerTypeControl, processType, true)
 
   }
 
-  findAnswerType(selectedAnswerType: string): boolean {
-    const getResult = this._answerTypeControl.get(selectedAnswerType)
-
-    if (getResult) { return true }
-    return false
-  }
 
   exportAnswerTypeControl(): { [index: string]: boolean } {
     // new Map() はリアクティブオブジェクトとして扱えないためオブジェクトに変換
@@ -134,14 +158,10 @@ class TeamService {
 }
 
 
-class CreateAnswerEntity {
-
-}
-
 export {
+  AnswerTypeService,
   SelectAnswerTypeValueObject,
   AnswerTypeControlEntity,
   TeamValueObject,
-  TeamService,
-  CreateAnswerEntity
+  TeamService
 }
