@@ -1,9 +1,8 @@
 <template>
-  <div>
+  <div class="container">
 
-    <div class="has-text-centered block">
+    <div class="has-text-centered m-5">
       <h1 class="title">クイズを作る</h1>
-      <h1 class="title">Create Quiz</h1>
     </div>
 
     <div v-if="reactiveActiveProcess.selectQuizType">

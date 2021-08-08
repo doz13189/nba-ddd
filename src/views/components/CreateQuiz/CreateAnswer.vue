@@ -1,27 +1,31 @@
 <template>
-    <div>
-      <label for="pet-select">作るクイズの回答タイプを選ぶ</label>
+
+    <div class="m-3">
+      <p>作るクイズの回答タイプを選んで下さい。</p>
     </div>
 
-    <div>
-      <p>1つ選んで下さい</p>
-      <select v-model="refAnswerType">
-        <option value="free">{{ answerTypeService.getAnswerType('free') }}</option>
-        <option value="team">{{ answerTypeService.getAnswerType('team') }}</option>
-      </select>
+    <div class="m-3">
+      <div class="select">
+        <select v-model="refAnswerType">
+          <option value="free">{{ answerTypeService.getAnswerType('free') }}</option>
+          <option value="team">{{ answerTypeService.getAnswerType('team') }}</option>
+        </select>
+      </div>
     </div>
 
-    <div v-if="reactiveAnswerTypeControl.free">
-      <label>
-        <input type="text" v-model="inputTeam">
-      </label>
-    </div>
+    <div class="m-3">
+      <div v-if="reactiveAnswerTypeControl.free">
+        <input class="input is-primary" type="text" v-model="inputTeam">
+      </div>
 
-    <div v-if="reactiveAnswerTypeControl.team">
-      <select v-model="selectedTeam">
-        <option disabled value="">1つ選んで下さい</option>
-        <option  v-for="item in refTeam" :key="item" :value="item">{{ item }}</option>
-      </select>
+      <div v-if="reactiveAnswerTypeControl.team">
+        <div class="select">
+          <select v-model="selectedTeam">
+            <option disabled value="">1つ選んで下さい</option>
+            <option  v-for="item in refTeam" :key="item" :value="item">{{ item }}</option>
+          </select>
+        </div>
+      </div>
     </div>
 
 </template>

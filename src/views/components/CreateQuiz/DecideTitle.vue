@@ -1,8 +1,8 @@
 <template>
 
-  <div>
-    <label for="name">タイトル</label>
-    <input type="text" v-model="refTitle">
+  <div class="m-3">
+    <p>タイトルを入力して下さい。</p>
+    <input class="input is-primary" type="text" v-model="refTitle">
   </div>
 
 </template>

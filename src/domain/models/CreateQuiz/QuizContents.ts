@@ -178,10 +178,10 @@ class CreateQuizContentsEntity extends MapAccessHandler {
 
   initialQuizContents(): void {
     this._quizContents.set('one', { position: null, height: null, name: null })
-    // this._quizContents.set('two', { position: null, height: null, name: null })
-    // this._quizContents.set('three', { position: null, height: null, name: null })
-    // this._quizContents.set('four', { position: null, height: null, name: null })
-    // this._quizContents.set('five', { position: null, height: null, name: null })
+    this._quizContents.set('two', { position: null, height: null, name: null })
+    this._quizContents.set('three', { position: null, height: null, name: null })
+    this._quizContents.set('four', { position: null, height: null, name: null })
+    this._quizContents.set('five', { position: null, height: null, name: null })
   }
 
   updateQuizContents(

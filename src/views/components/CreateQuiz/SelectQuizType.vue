@@ -1,11 +1,9 @@
 <template>
-    <div class="block">
-      <p>作るクイズのタイプを選ぶ</p>
+    <div class="m-3">
+      <p>作るクイズのタイプを選んで下さい。</p>
     </div>
 
-    <div class="block">
-      <p>1つ選んで下さい</p>
-
+    <div class="select m-3">
       <select v-model="selectedQuizType">
         <option value="team">{{ quizType.getQuizType('team') }}</option>
         <!-- <option value="player">{{ quizType.getQuizType('player') }}</option> -->
