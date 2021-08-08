@@ -58,10 +58,12 @@ class HeightValueObject extends HeightService {
   checkHeight(): boolean {
 
     if (this._height > this.maxHeight) {
-      throw new Error('不正な身長が入力されました')
+      // throw new Error('不正な身長が入力されました')
+      return false
     }
     if (this._height < this.minHeight) {
-      throw new Error('不正な身長が入力されました')
+      // throw new Error('不正な身長が入力されました')
+      return false
     }
 
     return true
