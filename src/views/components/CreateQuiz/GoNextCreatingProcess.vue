@@ -1,8 +1,6 @@
 <template>
 
-  <div class="has-text-centered m-5">
-    <button type="button" class="button is-primary is-rounded" v-on:click="goNext" :disabled="!localGoNextButtonStatus">次に進む</button>
-  </div>
+  <button type="button" class="button is-primary is-rounded" v-on:click="goNext" :disabled="!localGoNextButtonStatus">次に進む</button>
 
 </template>
 

@@ -75,6 +75,10 @@ class ProcessManagementEntity extends  MapAccessHandler {
     this.setMapAccessHandler(this._activeProcess, processType, processStatus)
   }
 
+  calculateProcessOrder(processOrder: number, calculateNumber: number): number {
+    return processOrder + calculateNumber
+  }
+
   setNextActiveProcess(processType: string): void {
     // 責務 :  クイズ作成工程で次に表示するべき画面に対応する工程のステータスの setter
 
@@ -90,7 +94,23 @@ class ProcessManagementEntity extends  MapAccessHandler {
         this.setActiveProcess(nextprocessType, true)
       }
     }
+  }
 
+  setBackActiveProcess(processType: string): void {
+    // 責務 :  クイズ作成工程を1つ戻った場合に表示するべき画面に対応する工程のステータスの setter
+
+    // 現在、アクティブなクイズ作成工程の画面を false にする
+    this.setActiveProcess(processType, false)
+
+    // 1つ戻った場合に、アクティブにするべきクイズ作成工程の画面を true にする
+    const processOrder = this.getMapAccessHandler(this._processOrder, processType)
+    const nextProcessOrder: number = processOrder - 1
+    for (const [key, value] of this._processOrder) {
+      if (nextProcessOrder === value) {
+        const nextprocessType: string = key
+        this.setActiveProcess(nextprocessType, true)
+      }
+    }
   }
 
   exportActiveProcess(): { [index: string]: boolean } {

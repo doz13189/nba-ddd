@@ -10,23 +10,35 @@
         @passStatusToParent="updateProcessComplete($event)"
         />
 
-      <GoNextCreatingProcess
-        @passStatusToParent="updateActiveProcess($event)"
-        :goNextButtonType="'selectQuizType'"
-        :goNextButtonStatus="reactiveProcessComplete"
-        />
+      <div class="has-text-centered">
+        <GoNextCreatingProcess
+          @passStatusToParent="updateActiveProcess($event)"
+          :goNextButtonType="'selectQuizType'"
+          :goNextButtonStatus="reactiveProcessComplete"
+          />
+      </div>
     </div>
 
     <div v-if="reactiveActiveProcess.createQuizContents">
       <CreateQuizContents
         @passStatusToParent="updateProcessComplete($event)"
         />
-        
-      <GoNextCreatingProcess
-        @passStatusToParent="updateActiveProcess($event)"
-        :goNextButtonType="'createQuizContents'"
-        :goNextButtonStatus="reactiveProcessComplete"
-        />
+
+      <div class="columns is-mobile has-text-centered ">
+        <div class="column">
+          <BackCreatingProcess
+            @passStatusToParent="backActiveProcess($event)"
+            :backButtonType="'createQuizContents'"
+            />
+        </div>
+        <div class="column">
+          <GoNextCreatingProcess
+            @passStatusToParent="updateActiveProcess($event)"
+            :goNextButtonType="'createQuizContents'"
+            :goNextButtonStatus="reactiveProcessComplete"
+            />
+        </div>
+      </div>
     </div>
 
     <div v-if="reactiveActiveProcess.createAnswer">
@@ -34,11 +46,21 @@
         @passStatusToParent="updateProcessComplete($event)"
         />
 
-      <GoNextCreatingProcess
-        @passStatusToParent="updateActiveProcess($event)"
-        :goNextButtonType="'createAnswer'"
-        :goNextButtonStatus="reactiveProcessComplete"
-        />
+      <div class="columns is-mobile has-text-centered ">
+        <div class="column">
+          <BackCreatingProcess
+            @passStatusToParent="backActiveProcess($event)"
+            :backButtonType="'createQuizContents'"
+            />
+        </div>
+        <div class="column">
+          <GoNextCreatingProcess
+            @passStatusToParent="updateActiveProcess($event)"
+            :goNextButtonType="'createAnswer'"
+            :goNextButtonStatus="reactiveProcessComplete"
+            />
+        </div>
+      </div>
     </div>
 
     <div v-if="reactiveActiveProcess.decideTitle">
@@ -46,11 +68,21 @@
         @passStatusToParent="updateProcessComplete($event)"
         />
 
-      <GoNextCreatingProcess
-        @passStatusToParent="updateActiveProcess($event)"
-        :goNextButtonType="'decideTitle'"
-        :goNextButtonStatus="reactiveProcessComplete"
-        />
+      <div class="columns is-mobile has-text-centered ">
+        <div class="column">
+          <BackCreatingProcess
+            @passStatusToParent="backActiveProcess($event)"
+            :backButtonType="'createQuizContents'"
+            />
+        </div>
+        <div class="column">
+          <GoNextCreatingProcess
+            @passStatusToParent="updateActiveProcess($event)"
+            :goNextButtonType="'decideTitle'"
+            :goNextButtonStatus="reactiveProcessComplete"
+            />
+        </div>
+      </div>
     </div>
 
     <div v-if="reactiveActiveProcess.saveQuiz">
@@ -67,6 +99,8 @@ import CreateAnswer from '@/views/components/CreateQuiz/CreateAnswer.vue'
 import DecideTitle from '@/views/components/CreateQuiz/DecideTitle.vue'
 import SaveQuiz from '@/views/components/CreateQuiz/SaveQuiz.vue'
 import GoNextCreatingProcess from '@/views/components/CreateQuiz/GoNextCreatingProcess.vue'
+import BackCreatingProcess from '@/views/components/CreateQuiz/BackCreatingProcess.vue'
+
 
 import {
   ProcessManagementEntity,
@@ -80,7 +114,8 @@ export default defineComponent({
     CreateAnswer,
     DecideTitle,
     SaveQuiz,
-    GoNextCreatingProcess
+    GoNextCreatingProcess,
+    BackCreatingProcess
   },
   setup() {
     const processManagementEntity = new ProcessManagementEntity()
@@ -92,6 +127,12 @@ export default defineComponent({
       processManagementEntity.setNextActiveProcess(event.type)
       processManagementEntity.updateActiveProcess(reactiveActiveProcess)
     }
+
+    const backActiveProcess = (event: { type: string }) => {
+      processManagementEntity.setBackActiveProcess(event.type)
+      processManagementEntity.updateActiveProcess(reactiveActiveProcess)
+    }
+
 
 
     const processManagementValueObject = new ProcessManagementValueObject()
@@ -107,6 +148,7 @@ export default defineComponent({
     return {
       updateActiveProcess,
       updateProcessComplete,
+      backActiveProcess,
       reactiveActiveProcess,
       reactiveProcessComplete
     }
