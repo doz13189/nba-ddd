@@ -92,7 +92,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, provide } from 'vue';
 import SelectQuizType from '@/views/components/CreateQuiz/SelectQuizType.vue'
 import CreateQuizContents from '@/views/components/CreateQuiz/CreateQuizContents.vue'
 import CreateAnswer from '@/views/components/CreateQuiz/CreateAnswer.vue'
@@ -107,6 +107,10 @@ import {
   ProcessManagementValueObject
 } from '@/domain/models/CreateQuiz/ProcessManagement'
 
+import {
+  QuizId
+} from '@/domain/models/Quiz/QuizId'
+
 export default defineComponent({
   components: {
     SelectQuizType,
@@ -118,6 +122,12 @@ export default defineComponent({
     BackCreatingProcess
   },
   setup() {
+
+    // クイズIDの生成
+    const quizId = new QuizId()
+    provide('quizId', quizId.quizId)
+
+    // クイズ作成工程に対応した画面を表示するための処理
     const processManagementEntity = new ProcessManagementEntity()
 
     const activeProcess = processManagementEntity.exportActiveProcess()
@@ -134,7 +144,7 @@ export default defineComponent({
     }
 
 
-
+    // クイズ作成の各工程のステータスを更新する処理
     const processManagementValueObject = new ProcessManagementValueObject()
 
     const processComplete = processManagementValueObject.exportProcessComplete()

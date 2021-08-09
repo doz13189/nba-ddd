@@ -13,10 +13,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect } from 'vue';
+import { defineComponent, ref, watchEffect, inject } from 'vue';
 
 import {
   SelectQuizTypeValueObject,
+  SelectQuizTypeRepository,
   quizTypeValueObject
 } from '@/domain/models/CreateQuiz/SelectQuizType'
 
@@ -24,10 +25,19 @@ import {
 export default defineComponent({
   emits: ['passStatusToParent'],
   setup(props, { emit }) {
+
+    const selectQuizTypeRepository = new SelectQuizTypeRepository()
+    selectQuizTypeRepository.db()
+
+    const quizId: string | undefined = inject('quizId')
+    // ドメインの処理なので、どこかのタイミングでドメインに移行する必要あり
+    // 後続の SelectQuizTypeValueObject に undefined の quizId を渡すのを防いでいる
+    if (quizId === undefined) { throw new Error('クイズIDが設定されていません。') }
+
     const selectedQuizType = ref<string>('')
 
     watchEffect(() => {
-      const selectQuiz = new SelectQuizTypeValueObject(selectedQuizType.value)
+      const selectQuiz = new SelectQuizTypeValueObject(quizId, selectedQuizType.value)
       
       const selectQuizStatus = selectQuiz.checkQuizType()
       emit('passStatusToParent', { type: 'selectQuizType', status: selectQuizStatus })

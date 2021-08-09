@@ -3,4 +3,5 @@ import App from './App.vue'
 import router from './router'
 import 'bulma/css/bulma.css'
 
-createApp(App).use(router).mount('#app')
+const app = createApp(App).use(router).mount('#app')
+// app.config.globalProperties.$http = () => {}
