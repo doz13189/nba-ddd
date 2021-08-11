@@ -2,6 +2,16 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import 'bulma/css/bulma.css'
+// import { firestore } from '@/plugins/firebase'
 
-const app = createApp(App).use(router).mount('#app')
-// app.config.globalProperties.$http = () => {}
+// declare module '@vue/runtime-core' {
+//   export interface ComponentCustomProperties {
+//     $firestore: typeof firestore
+//   }
+// }
+
+
+const app = createApp(App)
+// app.config.globalProperties.$firestore = firestore
+app.use(router).mount('#app')
+

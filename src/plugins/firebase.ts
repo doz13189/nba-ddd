@@ -11,5 +11,9 @@ initializeApp({
   measurementId: "G-6V6YLT3K22"
 });
 
-const db = getFirestore();
+const firestore = getFirestore();
 
+
+export {
+  firestore
+}

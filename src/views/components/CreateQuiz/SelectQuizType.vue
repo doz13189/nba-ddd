@@ -17,7 +17,6 @@ import { defineComponent, ref, watchEffect, inject } from 'vue';
 
 import {
   SelectQuizTypeValueObject,
-  SelectQuizTypeRepository,
   quizTypeValueObject
 } from '@/domain/models/CreateQuiz/SelectQuizType'
 
@@ -25,9 +24,6 @@ import {
 export default defineComponent({
   emits: ['passStatusToParent'],
   setup(props, { emit }) {
-
-    const selectQuizTypeRepository = new SelectQuizTypeRepository()
-    selectQuizTypeRepository.db()
 
     const quizId: string | undefined = inject('quizId')
     // ドメインの処理なので、どこかのタイミングでドメインに移行する必要あり
@@ -39,8 +35,13 @@ export default defineComponent({
     watchEffect(() => {
       const selectQuiz = new SelectQuizTypeValueObject(quizId, selectedQuizType.value)
       
+      // クイズタイプの選択がされているかチェック
       const selectQuizStatus = selectQuiz.checkQuizType()
       emit('passStatusToParent', { type: 'selectQuizType', status: selectQuizStatus })
+
+      // クイズタイプのデータ書き込み
+      selectQuiz.writeQuizType()
+
     })
 
     const quizType = new quizTypeValueObject()
