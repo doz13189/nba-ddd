@@ -15,7 +15,12 @@ const firestoreProductionConfig = getFirestore();
 type firestoreType = typeof firestoreProductionConfig
 
 
-import { collection, addDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  doc,
+  setDoc
+} from "firebase/firestore";
 
 class firestoreService {
 
@@ -35,6 +40,17 @@ class firestoreService {
     }
 
   }
+
+  async setDocument(document: string, documentId: string, collection: Object) {
+
+    try {
+      await setDoc(doc(this._firestore, document, documentId), collection)
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+
+  }
+  
 }
 
 export {

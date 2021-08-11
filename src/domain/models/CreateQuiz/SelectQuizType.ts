@@ -57,10 +57,7 @@ class SelectQuizTypeValueObject extends quizTypeValueObject {
     if (!this.checkQuizType()) return
 
     const selectQuizTypeRepository = new firestoreService(firestoreProductionConfig)
-    selectQuizTypeRepository.addDocument('quiz', {
-      quizId: this._quizId,
-      selectedQuizType: this._selectedQuizType
-    })
+    selectQuizTypeRepository.setDocument('quiz', this._quizId, { selectedQuizType: this._selectedQuizType })
 
   }
 
