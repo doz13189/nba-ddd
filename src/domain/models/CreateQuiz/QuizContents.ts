@@ -1,5 +1,14 @@
 import { MapAccessHandler } from '@/utils/mapAccessHandler'
 
+import {
+  QuizIdObjectValue
+} from '@/domain/models/Quiz/QuizId'
+
+import {
+  firestoreProductionConfig,
+  firestoreService
+} from '@/domain/services/firestoreService'
+
 
 class PositionService extends MapAccessHandler {
   // 責務 : ポジションの属性値を持つ。
@@ -171,11 +180,13 @@ interface QuizContentsInterface {
 
 class CreateQuizContentsEntity extends MapAccessHandler {
 
+  private _quizId: QuizIdObjectValue
   private _quizContents = new Map<string, QuizContentsInterface>()
 
-  constructor() {
+  constructor(quizId: QuizIdObjectValue) {
     super()
     this.initialQuizContents()
+    this._quizId = quizId
   }
 
   initialQuizContents(): void {
@@ -193,6 +204,12 @@ class CreateQuizContentsEntity extends MapAccessHandler {
     name: NameValueObject,
   ): void {
     this.setMapAccessHandler(this._quizContents, order.order, { position: position.position, height: height.height, name: name.name })
+  }
+
+  writeQuizContents(): void {
+    const selectQuizContentsRepository = new firestoreService(firestoreProductionConfig)
+    selectQuizContentsRepository.setDocument('quiz', this._quizId.quizId, { startingMembers: this.exportAsObject(this._quizContents) })
+
   }
 
   checkAllQuizContents() {

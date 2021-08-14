@@ -23,6 +23,10 @@ import {
   CreateQuizContentsEntity
 } from '@/domain/models/CreateQuiz/QuizContents'
 
+import {
+  QuizIdService
+} from '@/domain/models/Quiz/QuizId'
+
 
 export default defineComponent({
   emits: ['passStatusToParent'],
@@ -30,7 +34,13 @@ export default defineComponent({
     PositionAndHeight
   },
   setup(props, { emit }) {
-    const createQuizContents = new CreateQuizContentsEntity()
+
+    // クイズIDの呼び出し
+    const quizIdService = new QuizIdService()
+    const quizIdObjectValue = quizIdService.callInject()
+
+    const createQuizContents = new CreateQuizContentsEntity(quizIdObjectValue)
+
 
     const updatePositionAndHeight = (passedOrder: string, event: { position: string, height: number, name: string,}) => {
 
@@ -50,6 +60,7 @@ export default defineComponent({
 
       const checkResult = createQuizContents.checkAllQuizContents()
       if (checkResult) {
+        createQuizContents.writeQuizContents()
         emit('passStatusToParent', { type: 'createQuizContents', status: true })
       }
       

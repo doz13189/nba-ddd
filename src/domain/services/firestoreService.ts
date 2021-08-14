@@ -44,7 +44,7 @@ class firestoreService {
   async setDocument(document: string, documentId: string, collection: Object) {
 
     try {
-      await setDoc(doc(this._firestore, document, documentId), collection)
+      await setDoc(doc(this._firestore, document, documentId), collection, { merge: true })
     } catch (e) {
       console.error("Error adding document: ", e);
     }

@@ -18,6 +18,11 @@ class MapAccessHandler {
     this.getMapAccessHandler(targetMap, key)
     targetMap.set(key, value)
   }
+
+  exportAsObject(targetMap: Map<any, any>): Object {
+    return Object.fromEntries(targetMap)
+  }
+
 }
 
 export {
