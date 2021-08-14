@@ -1,5 +1,14 @@
 import { MapAccessHandler } from '@/utils/mapAccessHandler'
 
+import {
+  QuizIdObjectValue
+} from '@/domain/models/Quiz/QuizId'
+
+import {
+  firestoreProductionConfig,
+  firestoreService
+} from '@/domain/services/firestoreService'
+
 
 class AnswerTypeService extends MapAccessHandler {
   // 責務 : クイズ回答タイプの属性値を持つ。
@@ -57,6 +66,7 @@ class SelectAnswerTypeValueObject extends AnswerTypeService {
 
 
 class AnswerTypeControlEntity extends AnswerTypeService {
+
   private _answerTypeControl = new Map<string, boolean>()
 
   constructor() {
@@ -101,9 +111,11 @@ class AnswerTypeControlEntity extends AnswerTypeService {
 
 class TeamValueObject {
 
+  private _quizId: QuizIdObjectValue
   private _team: string
 
-  constructor(team: string) {
+  constructor(quizId: QuizIdObjectValue, team: string) {
+    this._quizId = quizId
     this._team = team
   }
 
@@ -112,7 +124,14 @@ class TeamValueObject {
       return false
     }
     return true
-  }  
+  }
+
+  writeAnswer(): void {
+    if (!this.checkTeam()) return
+
+    const selectQuizContentsRepository = new firestoreService(firestoreProductionConfig)
+    selectQuizContentsRepository.setDocument('quiz', this._quizId.quizId, { answer: this._team })
+  }
 
 }
 

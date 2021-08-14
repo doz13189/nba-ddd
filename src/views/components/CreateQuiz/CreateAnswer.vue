@@ -32,6 +32,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watchEffect, reactive } from 'vue';
+
 import {
   AnswerTypeService,
   SelectAnswerTypeValueObject,
@@ -40,10 +41,18 @@ import {
   TeamService
 } from '@/domain/models/CreateQuiz/CreateAnswer'
 
+import {
+  QuizIdService
+} from '@/domain/models/Quiz/QuizId'
+
 
 export default defineComponent({
   emits: ['passStatusToParent'],
   setup(props, { emit }) {
+
+    // クイズIDの呼び出し
+    const quizIdService = new QuizIdService()
+    const quizIdObjectValue = quizIdService.callInject()
 
     const answerTypeService = new AnswerTypeService()
 
@@ -79,19 +88,24 @@ export default defineComponent({
 
     watchEffect(() => {
 
-      const team = new TeamValueObject(inputTeam.value)
+      const team = new TeamValueObject(quizIdObjectValue, inputTeam.value)
       const checkResult = team.checkTeam()
 
       emit('passStatusToParent', { type: 'createAnswer', status: checkResult })
+
+      // 作成したクイズの回答を書き込み
+      team.writeAnswer()
 
     })
 
     watchEffect(() => {
 
-      const team = new TeamValueObject(selectedTeam.value)
+      const team = new TeamValueObject(quizIdObjectValue, selectedTeam.value)
       const checkResult = team.checkTeam()
-
       emit('passStatusToParent', { type: 'createAnswer', status: checkResult })
+
+      // 作成したクイズの回答を書き込み
+      team.writeAnswer()
 
     })
 
