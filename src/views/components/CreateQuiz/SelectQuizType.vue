@@ -13,27 +13,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect, inject } from 'vue';
+import { defineComponent, ref, watchEffect } from 'vue';
 
 import {
   SelectQuizTypeValueObject,
   quizTypeValueObject
 } from '@/domain/models/CreateQuiz/SelectQuizType'
 
+import {
+  QuizIdService
+} from '@/domain/models/Quiz/QuizId'
+
 
 export default defineComponent({
   emits: ['passStatusToParent'],
   setup(props, { emit }) {
 
-    const quizId: string | undefined = inject('quizId')
-    // ドメインの処理なので、どこかのタイミングでドメインに移行する必要あり
-    // 後続の SelectQuizTypeValueObject に undefined の quizId を渡すのを防いでいる
-    if (quizId === undefined) { throw new Error('クイズIDが設定されていません。') }
+    // クイズIDの呼び出し
+    const quizIdService = new QuizIdService()
+    const quizIdObjectValue = quizIdService.callInject()
 
     const selectedQuizType = ref<string>('')
 
     watchEffect(() => {
-      const selectQuiz = new SelectQuizTypeValueObject(quizId, selectedQuizType.value)
+      const selectQuiz = new SelectQuizTypeValueObject(quizIdObjectValue, selectedQuizType.value)
       
       // クイズタイプの選択がされているかチェック
       const selectQuizStatus = selectQuiz.checkQuizType()

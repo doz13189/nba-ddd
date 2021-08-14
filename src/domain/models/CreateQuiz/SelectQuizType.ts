@@ -1,8 +1,14 @@
 import { MapAccessHandler } from '@/utils/mapAccessHandler'
+
 import {
   firestoreProductionConfig,
   firestoreService
 } from '@/domain/services/firestoreService'
+
+import {
+  QuizIdObjectValue
+} from '@/domain/models/Quiz/QuizId'
+
 
 
 class quizTypeValueObject extends MapAccessHandler {
@@ -29,15 +35,16 @@ class quizTypeValueObject extends MapAccessHandler {
 
 
 class SelectQuizTypeValueObject extends quizTypeValueObject {
-  private _quizId: string
+  private _quizId: QuizIdObjectValue
   private _selectedQuizType: string
 
   
-  constructor(quizId: string, selectedQuizType: string) {
+  constructor(quizId: QuizIdObjectValue, selectedQuizType: string) {
     super()
 
     this._quizId = quizId
     this._selectedQuizType = selectedQuizType
+
   }
 
   checkQuizType(): boolean {
@@ -57,7 +64,7 @@ class SelectQuizTypeValueObject extends quizTypeValueObject {
     if (!this.checkQuizType()) return
 
     const selectQuizTypeRepository = new firestoreService(firestoreProductionConfig)
-    selectQuizTypeRepository.setDocument('quiz', this._quizId, { selectedQuizType: this._selectedQuizType })
+    selectQuizTypeRepository.setDocument('quiz', this._quizId.quizId, { selectedQuizType: this._selectedQuizType })
 
   }
 

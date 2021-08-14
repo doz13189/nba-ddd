@@ -1,20 +1,30 @@
+import { provide, inject } from 'vue';
 
-class QuizId {
+
+class QuizIdObjectValue {
 
   private _quizId: string
 
-  constructor() {
+  constructor(quizId: string | null) {
 
+    if (quizId) {
+      this._quizId = quizId
+    }
     this._quizId = this.generateQuizId()
 
   }
 
   generateQuizId(): string {
 
-    const quizId: string = 'aaaa'
+    const quizId: string = 'aaaaaaaaaaaaaaa'
     return quizId
     
   }
+
+  callProvide(): void {
+    provide('quizId', this._quizId)
+  }
+
 
   get quizId(): string {
     return this._quizId
@@ -22,11 +32,20 @@ class QuizId {
 
 }
 
+class QuizIdService {
 
-// class QuizObjectValue {
-//   private 
-// }
+  callInject(): QuizIdObjectValue {
+    const quizId: string | undefined = inject('quizId')
+    if (quizId === undefined) { throw new Error('クイズIDが設定されていません。') }
+
+    return new QuizIdObjectValue(quizId)
+
+  }
+
+}
+
 
 export {
-  QuizId
+  QuizIdObjectValue,
+  QuizIdService
 }
