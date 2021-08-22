@@ -14,13 +14,16 @@ initializeApp({
 const firestoreProductionConfig = getFirestore();
 type firestoreType = typeof firestoreProductionConfig
 
-
 import {
   collection,
   addDoc,
   doc,
-  setDoc
+  setDoc,
+  getDoc,
+  QueryDocumentSnapshot,
+  DocumentData
 } from "firebase/firestore";
+
 
 class firestoreService {
 
@@ -50,8 +53,25 @@ class firestoreService {
     }
 
   }
+
+  async getDocument(document: string, key: string): Promise<any> {
+
+    const docRef = doc(this._firestore, document, key);
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      // console.log("Document data:", docSnap.data());
+      return docSnap.data()
+    } else {
+      // doc.data() will be undefined in this case
+      // console.log("No such document!");
+      return undefined
+    }
+
+  }
   
 }
+
 
 export {
   firestoreProductionConfig,

@@ -1,8 +1,8 @@
 <template>
 
-    <div class="has-text-centered m-5">
-      <button type="button" class="button is-primary is-rounded">クイズを保存する</button>
-    </div>
+  <div class="has-text-centered m-5">
+    <button type="button" class="button is-primary is-rounded">クイズ作成完了</button>
+  </div>
 
 </template>
 
